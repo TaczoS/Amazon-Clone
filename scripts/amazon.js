@@ -1,9 +1,10 @@
-import {cart} from '../data/Cart.js';
+import {cart,addToCart,totalQuantity} from '../data/Cart.js';
 import { products } from '../data/products.js';
 let productsHtml = '';
+const timeoutMap = {};
 
-
-products.forEach((product) => {
+function generatingProducts(){
+  products.forEach((product) => {
   
     productsHtml += `<div class="product-container">
           <div class="product-image-container">
@@ -55,56 +56,30 @@ products.forEach((product) => {
           </button>
         </div>`;
         
-});
-const timeoutMap = {};
-  
+  });
+  document.querySelector('.js-products-grid').innerHTML = productsHtml;
 
- let totalQuantity = 0;
-document.querySelector('.js-products-grid').innerHTML = productsHtml;
-document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
-  button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
-    totalQuantity = 0;
+}
 
-    clearTimeout(timeoutMap[productId]);
+function showAdded(productId,button){
+  clearTimeout(timeoutMap[productId]);
     const addedButtonElement = document.querySelector(`.js-added-to-cart-${button.dataset.productId}`);
     
     addedButtonElement.classList.add('added-to-cart-2');
     timeoutMap[productId] = setTimeout(() => {
       addedButtonElement.classList.remove('added-to-cart-2');
     },2000);
-    
+
+}
+generatingProducts();
+ 
+
+document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
     const dropDownValue = Number(document.querySelector(`.js-quantity-selector-${button.dataset.productId}`).value);
-    
-
-    
-    
-    let matchingItem;
-    cart.forEach((item) => {
-      if(productId === item.productId){
-        matchingItem = item;
-
-      }
-    });
-    if(matchingItem){
-      matchingItem.quantity += dropDownValue;
-    }else{
-       cart.push({
-      productId : productId,
-      quantity: dropDownValue
-    });
-    
-
-    }
-    
-      cart.forEach((item)=>{
-    totalQuantity += item.quantity;
-
-  });
-  
-  document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
-    
-    
+    showAdded(productId,button);
+    addToCart(productId,dropDownValue);
     });
   
 
