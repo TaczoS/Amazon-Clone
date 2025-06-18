@@ -1,4 +1,4 @@
-
+import {cart} from '../data/Cart.js';
 let productsHtml = '';
 
 
@@ -79,7 +79,7 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     
     
     let matchingItem;
-    Cart.forEach((item) => {
+    cart.forEach((item) => {
       if(productId === item.productId){
         matchingItem = item;
 
@@ -88,7 +88,7 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
     if(matchingItem){
       matchingItem.quantity += dropDownValue;
     }else{
-       Cart.push({
+       cart.push({
       productId : productId,
       quantity: dropDownValue
     });
@@ -96,7 +96,7 @@ document.querySelectorAll('.js-add-to-cart-button').forEach((button) => {
 
     }
     
-      Cart.forEach((item)=>{
+      cart.forEach((item)=>{
     totalQuantity += item.quantity;
 
   });
