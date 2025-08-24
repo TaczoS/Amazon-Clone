@@ -1,5 +1,6 @@
 import {cart,addToCart,totalQuantity} from '../data/Cart.js';
 import { products } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 let productsHtml = '';
 const timeoutMap = {};
 
@@ -25,7 +26,7 @@ function generatingProducts(){
           </div>
 
           <div class="product-price">
-            $${(product.priceCents/100).toFixed(2)}
+            $${formatCurrency(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
